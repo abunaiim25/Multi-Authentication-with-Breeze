@@ -1,18 +1,32 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminPanel\AdminController;
-use App\Http\Controllers\VendorPanel\VendorController;
-use App\Http\Controllers\CustomerPanel\CustomerController;
+use App\Http\Controllers\NormalPanel\NormalController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SuperAdmin\SuperAdminController;
+use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', function () { 
+    return view('normal.index');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+
+// Route::get('/dashboard', function () {//role3
+//     return view('normal.index');
+// })->middleware(['auth', 'verified', 'normal'])->name('dashboard');
+
+// Route::get('/admin', function () {//role2
+//     return view('admin.dashboard');
+// })->middleware(['auth', 'verified', 'admin'])->name('admin');
+
+// Route::get('/superadmin', function () {//role1
+//     return view('superadmin.dashboard');
+// })->middleware(['auth', 'verified', 'superadmin'])->name('superadmin');
+
+Route::get('/home',[NormalController::class,'index'])->middleware('auth','verified', 'normal')->name('dashboard'); //role3
+Route::get('/admin',[AdminController::class,'index'])->middleware('auth','verified', 'admin')->name('admin'); //role2
+Route::get('/superadmin',[SuperAdminController::class,'index'])->middleware('auth','verified', 'superadmin')->name('superadmin'); //role1
+
 
 
 Route::middleware('auth')->group(function () {
@@ -23,17 +37,6 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 
-// STEP 5: for check
-// Route::get('admin/dashboard',[AdminController::class, 'index'])->name('admin.dashboard');
-// Route::get('vendor/dashboard',[VendorController::class, 'index'])->name('vendor.dashboard');
-
-
-# STEP 6:
-Route::middleware(['auth','role:admin'])->group(function () {
-    Route::get('admin/dashboard',[AdminController::class, 'index']);
-});
-
-
-Route::middleware(['auth','role:vendor'])->group(function () {
-    Route::get('vendor/dashboard',[VendorController::class, 'index']);
+Route::middleware('auth', 'verified', 'admin')->group(function () {
+    Route::get('/admin/about', [AdminController::class, 'about'])->name('admin.about');
 });

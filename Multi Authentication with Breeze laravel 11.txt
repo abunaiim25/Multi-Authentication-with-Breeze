@@ -1,0 +1,51 @@
+@Source: https://www.youtube.com/watch?v=gm5oYOZGN00
+
+STEP 1:
+composer create-project laravel/laravel project_name
+
+# create database on mysql
+# code open
+# .env add DB name
+# config\database.php ->change (utf8mb4_unicode_ci, mysql)
+
+php artisan serve
+(if problem -> php artisan migrate)
+
+
+***** Breeze and Blade *****
+
+STEP 2:
+composer require laravel/breeze --dev
+php artisan breeze:install 
+
+php artisan migrate
+npm install
+npm run dev
+
+STEP 3:
+database\migrations\0001_01_01_000000_create_users_table.php
+php artisan migrate:fresh
+ 
+STEP 4:
+resources\views\superadmin\dashboard.blade.php
+resources\views\admin\dashboard.blade.php
+resources\views\normal\index.blade.php
+
+php artisan make:middleware SuperAdmin
+php artisan make:middleware Admin
+php artisan make:middleware Normal
+bootstrap\app.php
+routes\web.php
+
+app\Http\Controllers\Auth\AuthenticatedSessionController.php
+
+STEP 5:
+php artisan tinker
+$user=App\Models\User::find(1);
+$user->role=1;
+$user->save();
+
+STEP 6:
+Template add
+
+

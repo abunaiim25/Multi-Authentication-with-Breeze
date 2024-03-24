@@ -46,7 +46,7 @@ app\Http\Controllers\VendorPanel\VendorController.php
 STEP 6:
 php artisan make:middleware RoleMiddleware
 app\Http\Middleware\RoleMiddleware.php
-app\Http\Kernel.php
+app\Http\Kernel.php (laravel 10)
 routes\web.php
 
 STEP 7: redidect (admin/vendor)

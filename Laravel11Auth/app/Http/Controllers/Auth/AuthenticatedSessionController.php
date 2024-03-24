@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\Auth\LoginRequest;
+use Illuminate\Support\Facades\Redirect;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -28,6 +29,22 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        //add
+        $userRole = Auth::user()->role;
+        switch ($userRole) {
+            case 1:
+                return Redirect::intended(route('superadmin'));
+                break;
+            case 2:
+                return Redirect::intended(route('admin'));
+                break;
+            case 3:
+                return Redirect::intended(route('dashboard'));
+                break;
+            default:
+                return redirect('/');
+        }
+        
         return redirect()->intended(route('dashboard', absolute: false));
     }
 
